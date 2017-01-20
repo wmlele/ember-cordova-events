@@ -25,7 +25,7 @@ export default function subscribe(path, method) {
     // ensure teardown
     let _super = this.get('willDestroy');
     this.set('willDestroy', function() {
-      this.get(service).off(event, _listener);
+      this.get(service).off(event, this, _listener);
       _listener = null;
       computedFn = null;
       _super.call(this);
@@ -37,7 +37,7 @@ export default function subscribe(path, method) {
     };
 
     // subscribe to the event
-    this.get(service).on(event, _listener);
+    this.get(service).on(event, this, _listener);
   };
 
   return on.call(this, 'init', computedFn);
